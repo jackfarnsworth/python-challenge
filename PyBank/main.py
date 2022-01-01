@@ -41,9 +41,12 @@ with open(filepath, 'r') as csvfile:
 
 
 
-print("Financial Analysis\n----------------------------")
-print(f"Total Months: {months}")
-print(f"Total: ${total}")
-print(f"Average Change: ${round(sum(changes)/len(changes),2)}")
-print(f"Greatest Increase in Profits: {greatest[0]} (${greatest[1]}")
-print(f"Greatest Decrease in Profits: {least[0]} (${least[1]})")
+analysis = f"""Financial Analysis
+----------------------------
+Total Months: {months}
+Total: ${total}
+Average Change: ${round(sum(changes)/len(changes),2)}
+Greatest Increase in Profits: {greatest[0]} (${greatest[1]})
+Greatest Decrease in Profits: {least[0]} (${least[1]})"""
+
+print(analysis)
