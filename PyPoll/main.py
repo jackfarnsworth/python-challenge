@@ -26,6 +26,9 @@ for candidate in candidates:
     analysis += f"{candidate[0]}: {round(candidate[1]/totalvotes, 3)*100}% ({candidate[1]})\n"
 
 sorted = list(zip(*candidates))
-analysis += f"Winner: {sorted[0][sorted[1].index(max(sorted[1]))]}"
-
+analysis += f"""-------------------------
+Winner: {sorted[0][sorted[1].index(max(sorted[1]))]}
+-------------------------
+"""
+open("analysis.txt", "w").write(analysis)
 print(analysis)

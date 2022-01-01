@@ -49,4 +49,5 @@ Average Change: ${round(sum(changes)/len(changes),2)}
 Greatest Increase in Profits: {greatest[0]} (${greatest[1]})
 Greatest Decrease in Profits: {least[0]} (${least[1]})"""
 
+open("analysis.txt", "w").write(analysis)
 print(analysis)
