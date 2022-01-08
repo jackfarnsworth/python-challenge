@@ -5,7 +5,7 @@ import csv
 previous = None
 total = 0
 months = 0
-changes = []
+changes = 0
 greatest = None
 least = None
 
@@ -37,8 +37,10 @@ with open(filepath, 'r') as csvfile:
         least = isleast(row, least)
         months += 1
         total += int(row[1])
-        if previous != None:
-            changes.append(int(row[1]) - previous)
+        if previous == None:
+            previous = int(row[1])
+            continue
+        changes += int(row[1]) - previous
         previous = int(row[1])
 
 #string format
@@ -46,7 +48,7 @@ analysis = f"""Financial Analysis
 ----------------------------
 Total Months: {months}
 Total: ${total}
-Average Change: ${round(sum(changes)/len(changes),2)}
+Average Change: ${round(changes/(months - 1),2)}
 Greatest Increase in Profits: {greatest[0]} (${greatest[1]})
 Greatest Decrease in Profits: {least[0]} (${least[1]})"""
 
