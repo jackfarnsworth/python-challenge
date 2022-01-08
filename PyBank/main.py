@@ -2,7 +2,12 @@ import os
 import csv
 
 filepath = os.path.join("Resources", "budget_data.csv")
-
+previous = None
+total = 0
+months = 0
+changes = 0
+greatest = None
+least = None
 #functions
 def isgreatest(x, greatest):
     if int(x[1]) > int(greatest[1]):
@@ -17,12 +22,6 @@ def isleast(x, least):
 with open(filepath, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
-    previous = None
-    total = 0
-    months = 0
-    changes = 0
-    greatest = None
-    least = None
     for row in csvreader:
         greatest = isgreatest(row, greatest) if greatest else row
         least = isleast(row, least) if least else row
