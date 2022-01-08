@@ -1,33 +1,30 @@
 import os
 import csv
 
-candidates = []
-totalvotes = 0
+#initial values
+candidates = {}
 filepath = os.path.join("Resources", "election_data.csv")
 
+#Reading csv and making dictionary
 with open(filepath, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
     for row in csvreader:
-        totalvotes += 1
-        iscandidate = False
-        for candidate in candidates:
-            if row[2] == candidate[0]:
-                iscandidate = True
-                candidate[1] += 1
-                break
-        if not iscandidate:
-            candidates.append([row[2], 1])
+        if row[2] in candidates:
+            candidates[row[2]] += 1
+        else:
+            candidates[row[2]] = 1
 
+print(candidates)
+
+#Formatting string
+totalvotes = sum(candidates.values())
 analysis = "Election Results\n-------------------------\n"
 analysis += f"Total Votes : {totalvotes}\n-------------------------\n"
-
-for candidate in candidates:
-    analysis += f"{candidate[0]}: {round(candidate[1]/totalvotes, 3)*100}% ({candidate[1]})\n"
-
-sorted = list(zip(*candidates))
+for name in candidates:
+    analysis += f"{name}: {candidates[name]/totalvotes*100:.3f}% ({candidates[name]})\n"
 analysis += f"""-------------------------
-Winner: {sorted[0][sorted[1].index(max(sorted[1]))]}
+Winner: {max(candidates, key=candidates.get)}
 -------------------------
 """
 open("analysis.txt", "w").write(analysis)
