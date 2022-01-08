@@ -1,40 +1,31 @@
 import os
 import csv
 
-
-previous = None
-total = 0
-months = 0
-changes = 0
-greatest = None
-least = None
-
 filepath = os.path.join("Resources", "budget_data.csv")
-
 
 #functions
 def isgreatest(x, greatest):
-    if greatest == None:
+    if int(x[1]) > int(greatest[1]):
         greatest = x
-    else:
-        if int(x[1]) > int(greatest[1]):
-            greatest = x
     return greatest
 
 def isleast(x, least):
-    if least == None:
+    if int(x[1]) < int(least[1]):
         least = x
-    else:
-        if int(x[1]) < int(least[1]):
-            least = x
     return least
 
 with open(filepath, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
+    previous = None
+    total = 0
+    months = 0
+    changes = 0
+    greatest = None
+    least = None
     for row in csvreader:
-        greatest = isgreatest(row, greatest)
-        least = isleast(row, least)
+        greatest = isgreatest(row, greatest) if greatest else row
+        least = isleast(row, least) if least else row
         months += 1
         total += int(row[1])
         if previous == None:
