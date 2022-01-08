@@ -11,20 +11,22 @@ least = None
 
 filepath = os.path.join("Resources", "budget_data.csv")
 
+
+#functions
 def isgreatest(x, greatest):
-    if greatest:
+    if greatest == None:
+        greatest = x
+    else:
         if int(x[1]) > int(greatest[1]):
             greatest = x
-    else:
-        greatest = x
     return greatest
 
 def isleast(x, least):
-    if least:
+    if least == None:
+        least = x
+    else:
         if int(x[1]) < int(least[1]):
             least = x
-    else:
-        least = x
     return least
 
 with open(filepath, 'r') as csvfile:
@@ -39,8 +41,7 @@ with open(filepath, 'r') as csvfile:
             changes.append(int(row[1]) - previous)
         previous = int(row[1])
 
-
-
+#string format
 analysis = f"""Financial Analysis
 ----------------------------
 Total Months: {months}
