@@ -6,11 +6,12 @@ filepath = os.path.join("Resources", "budget_data.csv")
 previous = None
 total = 0
 months = 0
-changes = 0
+change = 0
+sumchanges = 0
 greatest = None
 least = None
 
-#greatest and least functions, returns whole row for easy referencing in fstring
+#greatest and least functions, takes and returns a list for easy referencing in fstring
 def isgreatest(row, greatest):
     if int(row[1]) > int(greatest[1]):
         greatest = row
@@ -25,24 +26,25 @@ with open(filepath, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     header = next(csvreader)
     for row in csvreader:
-        #on first row in csv set greatest/least to that row
-        greatest = isgreatest(row, greatest) if greatest else row
-        least = isleast(row, least) if least else row
-        months += 1
         total += int(row[1])
+        months += 1
         #on first row, difference does not exist so set previous to that row and continue
         if previous == None:
             previous = int(row[1])
             continue
-        changes += int(row[1]) - previous
+        change = int(row[1]) - previous
+        sumchanges += change
         previous = int(row[1])
+        #on second row in csv set greatest/least to that change else run funcs
+        greatest = isgreatest([row[0], change], greatest) if greatest else [row[0], change]
+        least = isleast([row[0], change], least) if least else [row[0], change]
 
 #string format, average calculation done in place
 analysis = f"""Financial Analysis
 ----------------------------
 Total Months: {months}
 Total: ${total}
-Average Change: ${round(changes/(months - 1),2)}
+Average Change: ${round(sumchanges/(months - 1),2)}
 Greatest Increase in Profits: {greatest[0]} (${greatest[1]})
 Greatest Decrease in Profits: {least[0]} (${least[1]})"""
 
